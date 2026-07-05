@@ -1,0 +1,1616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pawzzle — NFC Memory Tiles for Pet Lovers | Kickstarter</title>
+    <style>
+        :root {
+            --ks-green: #05ce78;
+            --ks-green-hover: #04b368;
+            --ks-green-dark: #038d52;
+            --text-primary: #1a1a1a;
+            --text-secondary: #4a4a4a;
+            --text-muted: #6b6b6b;
+            --bg-white: #ffffff;
+            --bg-cream: #fdfaf5;
+            --bg-warm: #fef9f2;
+            --bg-light: #f7f7f7;
+            --bg-soft-gray: #f2f0ed;
+            --border-light: #e8e6e1;
+            --border-medium: #d5d3ce;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.10);
+            --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.12);
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --font-stack: 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            --transition-fast: 0.18s ease;
+            --transition-smooth: 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+            --max-width: 1280px;
+            --content-width: 780px;
+            --sidebar-width: 360px;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: var(--font-stack);
+            color: var(--text-primary);
+            background-color: #f9f8f6;
+            line-height: 1.6;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* 全局装饰：浮动小脚印背景 */
+        body::before {
+            content: "🐾 🐾 🐾 🐾 🐾 🐾 🐾 🐾 🐾 🐾 🐾 🐾 🐾 🐾 🐾 🐾 🐾 🐾 🐾 🐾 🐾 🐾 🐾 🐾 🐾 🐾 🐾 🐾 🐾 🐾";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            font-size: 2.5rem;
+            opacity: 0.03;
+            white-space: pre-wrap;
+            pointer-events: none;
+            z-index: -1;
+            line-height: 1.8;
+            transform: rotate(-5deg) scale(1.4);
+            letter-spacing: 30px;
+            word-break: break-all;
+        }
+
+        /* ============ TOP NAVBAR ============ */
+        .nav-top {
+            background: #ffffff;
+            border-bottom: 1px solid var(--border-light);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 700;
+            font-size: 1.15rem;
+            letter-spacing: -0.3px;
+        }
+
+        .nav-brand .paw-icon {
+            font-size: 1.5rem;
+            line-height: 1;
+            animation: bouncePaw 2s ease-in-out infinite;
+        }
+        @keyframes bouncePaw {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .nav-brand .brand-name {
+            background: linear-gradient(135deg, #3a2f28, #5c4a3d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+            list-style: none;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color var(--transition-fast);
+        }
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+        .nav-ks-badge {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #05ce78;
+            letter-spacing: 0.4px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .nav-ks-badge .ks-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #05ce78;
+            display: inline-block;
+        }
+
+        /* ============ MOBILE NAV SECONDARY ============ */
+        .nav-sub-mobile {
+            display: none;
+            background: #fff;
+            border-bottom: 1px solid var(--border-light);
+            padding: 10px 16px;
+            gap: 12px;
+            overflow-x: auto;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+        .nav-sub-mobile::-webkit-scrollbar {
+            display: none;
+        }
+        .nav-sub-mobile a {
+            text-decoration: none;
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            padding: 6px 12px;
+            border-radius: 20px;
+            background: #f5f4f1;
+            transition: all var(--transition-fast);
+            flex-shrink: 0;
+        }
+        .nav-sub-mobile a:hover,
+        .nav-sub-mobile a.active {
+            background: #e8f8f0;
+            color: #038d52;
+        }
+
+        /* ============ HERO SECTION ============ */
+        .hero {
+            background: linear-gradient(175deg, #fef9f2 0%, #fdf5ea 30%, #fefcf8 60%, #faf6ef 100%);
+            padding: 48px 24px 56px;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -80px;
+            right: -120px;
+            width: 460px;
+            height: 460px;
+            background: radial-gradient(circle, rgba(255, 189, 135, 0.18) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -60px;
+            left: -80px;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(160, 210, 180, 0.14) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .hero-inner {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            display: flex;
+            gap: 40px;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* 浮动装饰脚印 */
+        .floating-paws {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .floating-paw {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.15;
+            animation: floatPaw 8s ease-in-out infinite;
+        }
+        .floating-paw:nth-child(1) {
+            top: 15%;
+            left: 5%;
+            font-size: 2.4rem;
+            animation-delay: 0s;
+        }
+        .floating-paw:nth-child(2) {
+            top: 70%;
+            left: 8%;
+            font-size: 1.6rem;
+            animation-delay: 1.5s;
+        }
+        .floating-paw:nth-child(3) {
+            top: 25%;
+            right: 10%;
+            font-size: 2rem;
+            animation-delay: 3s;
+        }
+        .floating-paw:nth-child(4) {
+            top: 80%;
+            right: 12%;
+            font-size: 1.8rem;
+            animation-delay: 5s;
+        }
+        .floating-paw:nth-child(5) {
+            top: 40%;
+            left: 45%;
+            font-size: 1.9rem;
+            animation-delay: 2.2s;
+        }
+        @keyframes floatPaw {
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.15;
+            }
+            50% {
+                transform: translateY(-18px) rotate(6deg);
+                opacity: 0.3;
+            }
+        }
+
+        /* 真实宠物照片容器 */
+        .hero-visual {
+            flex: 0 0 420px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 380px;
+        }
+
+        .pet-photo-wrapper {
+            position: relative;
+            width: 320px;
+            height: 320px;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15), 0 6px 12px rgba(0, 0, 0, 0.1);
+            transform: rotate(-2deg);
+            transition: transform var(--transition-smooth), box-shadow var(--transition-smooth);
+            background: #f0e4d4;
+        }
+        .pet-photo-wrapper:hover {
+            transform: rotate(0deg) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero-pet-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* NFC 交互光环和图标 */
+        .nfc-glow {
+            position: absolute;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: rgba(5, 206, 120, 0.25);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: nfcPulse 2.4s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 3;
+        }
+        @keyframes nfcPulse {
+            0%,
+            100% {
+                transform: translate(-50%, -50%) scale(0.8);
+                opacity: 0.6;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.6);
+                opacity: 0;
+            }
+        }
+        .nfc-icon-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2.6rem;
+            pointer-events: none;
+            filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.4));
+            z-index: 4;
+        }
+
+        .hero-content {
+            flex: 1;
+            min-width: 0;
+        }
+        .hero-category {
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: #8b7355;
+            background: #f5ede1;
+            padding: 5px 12px;
+            border-radius: 20px;
+            margin-bottom: 14px;
+        }
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: -1.2px;
+            line-height: 1.15;
+            color: #2a2118;
+            margin-bottom: 12px;
+        }
+        .hero-title .accent {
+            color: #c7854a;
+            position: relative;
+        }
+        .hero-title .accent::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: #f0cfaa;
+            border-radius: 3px;
+            z-index: -1;
+        }
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: 20px;
+            max-width: 500px;
+        }
+        .hero-meta-row {
+            display: flex;
+            gap: 28px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .hero-meta-item {
+            display: flex;
+            flex-direction: column;
+        }
+        .hero-meta-value {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #2a2118;
+            letter-spacing: -0.5px;
+        }
+        .hero-meta-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+        .hero-cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--ks-green);
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.05rem;
+            padding: 14px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            letter-spacing: -0.2px;
+            transition: all var(--transition-smooth);
+            box-shadow: 0 4px 14px rgba(5, 206, 120, 0.35);
+            border: none;
+            cursor: pointer;
+        }
+        .hero-cta-btn:hover {
+            background: var(--ks-green-hover);
+            box-shadow: 0 6px 22px rgba(5, 206, 120, 0.45);
+            transform: translateY(-2px);
+        }
+        .hero-cta-btn:active {
+            transform: scale(0.97);
+        }
+
+        /* ============ MAIN LAYOUT ============ */
+        .main-layout {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            display: flex;
+            gap: 40px;
+            padding: 32px 24px 60px;
+            position: relative;
+        }
+        .content-area {
+            flex: 1;
+            min-width: 0;
+            max-width: var(--content-width);
+        }
+        .sidebar {
+            flex: 0 0 var(--sidebar-width);
+            position: sticky;
+            top: 80px;
+            align-self: flex-start;
+            max-height: calc(100vh - 100px);
+            overflow-y: auto;
+        }
+
+        /* ============ SIDEBAR CARD ============ */
+        .pledge-card {
+            background: #fff;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            padding: 26px 24px;
+            border: 1px solid var(--border-light);
+            position: relative;
+        }
+        .pledge-card .funding-raised {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.8px;
+            color: #1a1a1a;
+            margin-bottom: 2px;
+        }
+        .pledge-card .funding-goal {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+        .progress-bar-wrap {
+            background: #e9e6e0;
+            border-radius: 10px;
+            height: 8px;
+            margin-bottom: 8px;
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #05ce78, #04b368);
+            border-radius: 10px;
+            width: 75%;
+            transition: width 0.6s ease;
+        }
+        .funding-stats-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 16px;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+        .funding-stats-row strong {
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+        .pledge-card .btn-back-this {
+            display: block;
+            width: 100%;
+            text-align: center;
+            background: var(--ks-green);
+            color: #fff;
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 13px 20px;
+            border-radius: 28px;
+            text-decoration: none;
+            letter-spacing: -0.2px;
+            transition: all var(--transition-smooth);
+            box-shadow: 0 4px 14px rgba(5, 206, 120, 0.3);
+            border: none;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+        .pledge-card .btn-back-this:hover {
+            background: var(--ks-green-hover);
+            box-shadow: 0 6px 20px rgba(5, 206, 120, 0.4);
+            transform: translateY(-1px);
+        }
+        .pledge-card .btn-remind {
+            display: block;
+            width: 100%;
+            text-align: center;
+            background: transparent;
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 10px 20px;
+            border-radius: 28px;
+            text-decoration: none;
+            border: 2px solid #d5d3ce;
+            transition: all var(--transition-fast);
+            cursor: pointer;
+        }
+        .pledge-card .btn-remind:hover {
+            border-color: #a09c94;
+            color: var(--text-primary);
+        }
+        .pledge-card .creator-info {
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid var(--border-light);
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .creator-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f0cfaa, #d9a87c);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        /* ============ SECTION STYLES ============ */
+        .section {
+            margin-bottom: 40px;
+            scroll-margin-top: 80px;
+        }
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.4px;
+            color: #2a2118;
+            margin-bottom: 16px;
+            position: relative;
+            padding-left: 16px;
+        }
+        .section-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 4px;
+            bottom: 4px;
+            width: 4px;
+            background: var(--ks-green);
+            border-radius: 4px;
+        }
+        .section-text {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 14px;
+        }
+
+        /* ============ PROJECT STORY ============ */
+        .story-block {
+            background: #fff;
+            border-radius: var(--radius-lg);
+            padding: 32px 28px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-light);
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .story-block h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #2a2118;
+            letter-spacing: -0.3px;
+        }
+        .story-visual {
+            background: linear-gradient(150deg, #fef9f2, #fdf3e4, #fefcf8);
+            border-radius: var(--radius-md);
+            padding: 32px;
+            text-align: center;
+            margin: 18px 0;
+            border: 1px dashed #e0d6c8;
+            font-size: 3.5rem;
+            letter-spacing: 2px;
+            position: relative;
+            overflow: hidden;
+        }
+        .story-visual .visual-label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 8px;
+            letter-spacing: 0;
+            font-weight: 500;
+        }
+        /* 步骤卡片 */
+        .steps-row {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        .step-card {
+            flex: 1 1 160px;
+            background: #fdfaf5;
+            border-radius: var(--radius-md);
+            padding: 16px;
+            text-align: center;
+            border: 1px solid #f0e8db;
+            transition: all var(--transition-smooth);
+        }
+        .step-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+        .step-icon {
+            font-size: 2.6rem;
+            margin-bottom: 8px;
+        }
+        .step-card h4 {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: #2a2118;
+            margin-bottom: 4px;
+        }
+        .step-card p {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+        .highlight-box {
+            background: #fefdf8;
+            border-left: 4px solid #f0cfaa;
+            padding: 16px 20px;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            margin: 16px 0;
+            font-style: italic;
+            color: #5c4a3d;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .highlight-box .highlight-emoji {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        /* ============ REWARD TIERS ============ */
+        .reward-card {
+            background: #fff;
+            border: 2px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            padding: 22px 20px;
+            margin-bottom: 14px;
+            transition: all var(--transition-smooth);
+            cursor: pointer;
+            position: relative;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            align-items: flex-start;
+        }
+        .reward-card:hover {
+            border-color: #05ce78;
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+        .reward-card.featured {
+            border-color: #05ce78;
+            box-shadow: 0 0 0 6px rgba(5, 206, 120, 0.06);
+            background: #fafff8;
+        }
+        .reward-card.featured::before {
+            content: '⭐ MOST POPULAR';
+            position: absolute;
+            top: -13px;
+            right: 20px;
+            background: #05ce78;
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.6px;
+            padding: 5px 12px;
+            border-radius: 12px;
+            z-index: 2;
+        }
+        .reward-illustration {
+            font-size: 2.8rem;
+            flex-shrink: 0;
+            width: 50px;
+            text-align: center;
+            line-height: 1;
+            margin-top: 4px;
+        }
+        .reward-details {
+            flex: 1;
+            min-width: 200px;
+        }
+        .reward-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .reward-amount {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #1a1a1a;
+            letter-spacing: -0.5px;
+        }
+        .reward-title {
+            font-weight: 700;
+            font-size: 1rem;
+            color: #2a2118;
+        }
+        .reward-desc {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+        .reward-includes {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            list-style: none;
+            padding: 0;
+        }
+        .reward-includes li {
+            padding: 3px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+        .reward-includes li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #05ce78;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+        .reward-delivery {
+            font-size: 0.78rem;
+            color: #999;
+            margin-top: 8px;
+        }
+        .reward-select-btn {
+            display: inline-block;
+            margin-top: 10px;
+            background: #f5f4f1;
+            color: #2a2118;
+            font-weight: 600;
+            font-size: 0.88rem;
+            padding: 8px 18px;
+            border-radius: 20px;
+            text-decoration: none;
+            transition: all var(--transition-fast);
+            border: none;
+            cursor: pointer;
+        }
+        .reward-select-btn:hover {
+            background: #05ce78;
+            color: #fff;
+        }
+
+        /* ============ SOCIAL PROOF ============ */
+        .testimonial-card {
+            background: #fff;
+            border-radius: var(--radius-lg);
+            padding: 22px 20px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-light);
+            margin-bottom: 14px;
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+        }
+        .testimonial-avatar {
+            font-size: 2.6rem;
+            flex-shrink: 0;
+            width: 48px;
+            text-align: center;
+        }
+        .testimonial-card .quote {
+            font-style: italic;
+            color: #4a3d33;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 18px;
+        }
+        .testimonial-card .quote::before {
+            content: '"';
+            position: absolute;
+            left: 0;
+            top: -4px;
+            font-size: 2rem;
+            color: #f0cfaa;
+            font-weight: 700;
+            line-height: 1;
+        }
+        .testimonial-author {
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: #2a2118;
+        }
+        .testimonial-author span {
+            font-weight: 400;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        /* ============ FAQ ============ */
+        .faq-item {
+            background: #fff;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-light);
+            margin-bottom: 10px;
+            overflow: hidden;
+            transition: all var(--transition-fast);
+            position: relative;
+            padding-left: 44px;
+        }
+        .faq-item::before {
+            content: "❓";
+            position: absolute;
+            left: 14px;
+            top: 14px;
+            font-size: 1.1rem;
+            opacity: 0.6;
+            transition: all var(--transition-smooth);
+        }
+        .faq-item.open::before {
+            content: "🐾";
+            opacity: 1;
+        }
+        .faq-question {
+            width: 100%;
+            text-align: left;
+            background: none;
+            border: none;
+            padding: 16px 20px 16px 0;
+            font-size: 0.98rem;
+            font-weight: 600;
+            cursor: pointer;
+            color: #2a2118;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            font-family: var(--font-stack);
+            transition: background var(--transition-fast);
+        }
+        .faq-question:hover {
+            background: #fdfaf5;
+        }
+        .faq-arrow {
+            flex-shrink: 0;
+            transition: transform var(--transition-smooth);
+            font-size: 1.2rem;
+            color: #8b7355;
+            font-weight: 700;
+        }
+        .faq-item.open .faq-arrow {
+            transform: rotate(180deg);
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+            padding: 0 20px 0 0;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        .faq-item.open .faq-answer {
+            max-height: 300px;
+            padding: 0 20px 16px 0;
+        }
+
+        /* ============ CTA BANNER ============ */
+        .cta-banner {
+            background: linear-gradient(160deg, #2a2118, #3d3026, #2a2118);
+            border-radius: var(--radius-xl);
+            padding: 40px 32px;
+            text-align: center;
+            color: #fff;
+            margin: 32px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-banner::after {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.06) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .pet-silhouettes {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            right: 10px;
+            pointer-events: none;
+            font-size: 3rem;
+            opacity: 0.15;
+            display: flex;
+            justify-content: space-around;
+            animation: walkPets 12s linear infinite;
+        }
+        @keyframes walkPets {
+            0% {
+                transform: translateX(-10%);
+            }
+            100% {
+                transform: translateX(10%);
+            }
+        }
+        .cta-banner h3 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+        }
+        .cta-banner p {
+            font-size: 1rem;
+            color: #d5cfc6;
+            margin-bottom: 18px;
+            position: relative;
+            z-index: 1;
+        }
+        .cta-banner .btn-cta-large {
+            display: inline-block;
+            background: #05ce78;
+            color: #1a1a1a;
+            font-weight: 700;
+            font-size: 1.1rem;
+            padding: 15px 34px;
+            border-radius: 30px;
+            text-decoration: none;
+            letter-spacing: -0.2px;
+            transition: all var(--transition-smooth);
+            box-shadow: 0 6px 24px rgba(5, 206, 120, 0.4);
+            position: relative;
+            z-index: 1;
+        }
+        .cta-banner .btn-cta-large:hover {
+            background: #fff;
+            color: #1a1a1a;
+            box-shadow: 0 8px 30px rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+
+        /* ============ FOOTER ============ */
+        .site-footer {
+            background: #fff;
+            border-top: 1px solid var(--border-light);
+            padding: 24px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+        .site-footer a {
+            color: var(--text-secondary);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 1024px) {
+            .hero-inner {
+                flex-direction: column;
+                gap: 24px;
+                text-align: center;
+            }
+            .hero-visual {
+                flex: 0 0 auto;
+                min-height: 280px;
+                width: 100%;
+                max-width: 340px;
+                margin: 0 auto;
+            }
+            .pet-photo-wrapper {
+                width: 260px;
+                height: 260px;
+            }
+            .hero-title {
+                font-size: 2.2rem;
+            }
+            .hero-subtitle {
+                max-width: 100%;
+                font-size: 1rem;
+            }
+            .hero-meta-row {
+                justify-content: center;
+            }
+            .main-layout {
+                flex-direction: column;
+                gap: 24px;
+                padding: 20px 16px 40px;
+            }
+            .sidebar {
+                position: static;
+                flex: 0 0 auto;
+                max-height: none;
+                order: -1;
+                width: 100%;
+            }
+            .content-area {
+                max-width: 100%;
+            }
+            .pledge-card {
+                border-radius: var(--radius-md);
+            }
+            .nav-links {
+                display: none;
+            }
+            .nav-sub-mobile {
+                display: flex;
+            }
+            .section-title {
+                font-size: 1.3rem;
+            }
+            .steps-row {
+                flex-direction: column;
+            }
+            .reward-card {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .reward-illustration {
+                margin: 0 auto;
+            }
+            .testimonial-card {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .faq-item {
+                padding-left: 16px;
+            }
+            .faq-item::before {
+                left: 6px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .hero {
+                padding: 28px 14px 36px;
+            }
+            .hero-title {
+                font-size: 1.7rem;
+                letter-spacing: -0.6px;
+            }
+            .hero-visual {
+                min-height: 220px;
+                max-width: 250px;
+            }
+            .pet-photo-wrapper {
+                width: 200px;
+                height: 200px;
+                border-radius: 18px;
+            }
+            .hero-meta-row {
+                gap: 16px;
+            }
+            .hero-meta-value {
+                font-size: 1.3rem;
+            }
+            .pledge-card {
+                padding: 18px 14px;
+            }
+            .pledge-card .funding-raised {
+                font-size: 1.7rem;
+            }
+            .story-block {
+                padding: 20px 16px;
+            }
+            .reward-card {
+                padding: 16px 14px;
+            }
+            .reward-amount {
+                font-size: 1.25rem;
+            }
+            .cta-banner {
+                padding: 28px 18px;
+            }
+            .cta-banner h3 {
+                font-size: 1.3rem;
+            }
+            .nav-top {
+                padding: 0 12px;
+                height: 48px;
+            }
+            .nav-brand {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==================== TOP NAVIGATION ==================== -->
+    <nav class="nav-top" aria-label="Top navigation">
+        <a href="#" class="nav-brand" aria-label="Pawzzle home">
+            <span class="paw-icon">🐾</span>
+            <span class="brand-name">Pawzzle</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="#story">Story</a></li>
+            <li><a href="#rewards">Rewards</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><span class="nav-ks-badge"><span class="ks-dot"></span> Kickstarter</span></li>
+        </ul>
+    </nav>
+    <div class="nav-sub-mobile" aria-label="Quick navigation">
+        <a href="#story" class="active">📖 Story</a>
+        <a href="#rewards">🎁 Rewards</a>
+        <a href="#testimonials">💬 Reviews</a>
+        <a href="#faq">❓ FAQ</a>
+        <a href="#cta">🚀 Back Now</a>
+    </div>
+
+    <!-- ==================== HERO BANNER ==================== -->
+    <header class="hero" id="hero">
+        <div class="floating-paws">
+            <span class="floating-paw">🐾</span>
+            <span class="floating-paw">🐕</span>
+            <span class="floating-paw">🐾</span>
+            <span class="floating-paw">🐱</span>
+            <span class="floating-paw">🐾</span>
+        </div>
+        <div class="hero-inner">
+            <!-- 真实宠物照片展示 -->
+            <div class="hero-visual" aria-hidden="true">
+                <div class="pet-photo-wrapper">
+                    <!-- 使用placedog.net的随机狗狗照片，您可以替换为自己的宠物照片 -->
+                    <img src="https://placedog.net/500/500?random" alt="A beloved pet dog looking at the camera, representing the memories preserved by Pawzzle" class="hero-pet-photo">
+                    <div class="nfc-glow"></div>
+                    <div class="nfc-icon-overlay">📡</div>
+                </div>
+            </div>
+
+            <!-- Hero 文字内容 -->
+            <div class="hero-content">
+                <span class="hero-category">🐾 Design & Tech</span>
+                <h1 class="hero-title">
+                    Pawzzle:<br><span class="accent">NFC Memory Tiles</span><br>That Keep Your Pet's Story Alive
+                </h1>
+                <p class="hero-subtitle">
+                    Custom-crafted puzzle pieces embedded with NFC chips — each tile holds a cherished video of your pet.
+                    When they cross the rainbow bridge, their everyday moments stay right at your fingertips.
+                </p>
+                <div class="hero-meta-row">
+                    <div class="hero-meta-item">
+                        <span class="hero-meta-value">$18,750</span>
+                        <span class="hero-meta-label">pledged of $25,000 goal</span>
+                    </div>
+                    <div class="hero-meta-item">
+                        <span class="hero-meta-value">487</span>
+                        <span class="hero-meta-label">backers</span>
+                    </div>
+                    <div class="hero-meta-item">
+                        <span class="hero-meta-value">28</span>
+                        <span class="hero-meta-label">days to go</span>
+                    </div>
+                </div>
+                <a href="#rewards" class="hero-cta-btn">🐾 Back This Project</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==================== MAIN LAYOUT: Content + Sidebar ==================== -->
+    <div class="main-layout">
+
+        <!-- ===== SIDEBAR ===== -->
+        <aside class="sidebar" aria-label="Project funding card">
+            <div class="pledge-card">
+                <div class="funding-raised">$18,750</div>
+                <div class="funding-goal">pledged of <strong>$25,000</strong> goal</div>
+                <div class="progress-bar-wrap">
+                    <div class="progress-bar-fill" style="width: 75%;" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <div class="funding-stats-row">
+                    <span><strong>487</strong> backers</span>
+                    <span><strong>28</strong> days remaining</span>
+                </div>
+                <a href="#rewards" class="btn-back-this">🐾 Back This Project</a>
+                <button class="btn-remind" aria-label="Remind me about this project">🔔 Remind Me</button>
+                <div class="creator-info">
+                    <div class="creator-avatar">🐕</div>
+                    <span><strong>Pawzzle Studio</strong> · First created · 0 backed</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ===== MAIN CONTENT ===== -->
+        <main class="content-area">
+
+            <!-- PROJECT STORY -->
+            <section class="section" id="story">
+                <h2 class="section-title">📖 Our Story</h2>
+                <div class="story-block">
+                    <h3>Why We Created Pawzzle</h3>
+                    <p class="section-text">
+                        When my golden retriever, Maple, passed away last year, I found myself scrolling endlessly through
+                        my camera roll — desperate to hear her bark, see her tail wag, or watch her clumsy puppy zoomies
+                        one more time. But those videos were buried among thousands of files, impossible to find when grief
+                        hit hardest.
+                    </p>
+                    <p class="section-text">
+                        That's when the idea struck: <strong>what if I could hold a physical piece of her memory in my hands?</strong>
+                        A tangible object that, with a simple tap of my phone, could bring her back for a moment.
+                    </p>
+                    <div class="story-visual">
+                        🧩✨📹🐾
+                        <span class="visual-label">Each puzzle tile = one precious memory, preserved forever</span>
+                    </div>
+                    <p class="section-text">
+                        Pawzzle combines the comforting ritual of holding a physical memento with the magic of NFC
+                        technology. Each puzzle piece is custom-designed to reflect your pet's unique personality.
+                    </p>
+                    <div class="highlight-box">
+                        <span class="highlight-emoji">💡</span>
+                        <span><strong>The Pawzzle philosophy:</strong> Grief isn't something to "get over." It's something we
+                        learn to carry — and having a beautiful, tactile way to revisit joyful memories makes that weight a
+                        little lighter.</span>
+                    </div>
+                </div>
+
+                <div class="story-block">
+                    <h3>How It Works</h3>
+                    <div class="steps-row">
+                        <div class="step-card">
+                            <div class="step-icon">🎨</div>
+                            <h4>1. Design Your Tiles</h4>
+                            <p>Pick paw, bone, heart shapes or fully custom. Choose wood type & finish.</p>
+                        </div>
+                        <div class="step-card">
+                            <div class="step-icon">📤</div>
+                            <h4>2. Upload Videos</h4>
+                            <p>Use our app to record or upload clips. Assign each to a tile.</p>
+                        </div>
+                        <div class="step-card">
+                            <div class="step-icon">🛠️</div>
+                            <h4>3. We Craft & Ship</h4>
+                            <p>Precision-cut wood, embedded NFC, beautifully packaged.</p>
+                        </div>
+                        <div class="step-card">
+                            <div class="step-icon">📱</div>
+                            <h4>4. Tap & Relive</h4>
+                            <p>Hold phone near tile. Video plays instantly. No app needed.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- REWARD TIERS -->
+            <section class="section" id="rewards">
+                <h2 class="section-title">🎁 Rewards & Pledge Tiers</h2>
+                <p class="section-text" style="margin-bottom: 18px;">
+                    Every pledge helps us bring Pawzzle to life. Choose the tier that fits your needs — all rewards
+                    include free shipping within the US.
+                </p>
+
+                <div class="reward-card" tabindex="0">
+                    <div class="reward-illustration">🐾</div>
+                    <div class="reward-details">
+                        <div class="reward-header">
+                            <span class="reward-amount">Pledge $5</span>
+                            <span class="reward-title">Digital Supporter</span>
+                        </div>
+                        <p class="reward-desc">Every bit helps! Get exclusive project updates and a heartfelt thank-you.</p>
+                        <ul class="reward-includes">
+                            <li>Backer-exclusive updates</li>
+                            <li>Digital thank-you card</li>
+                            <li>Name on our "Wall of Paws"</li>
+                        </ul>
+                        <p class="reward-delivery">📦 Digital delivery</p>
+                        <button class="reward-select-btn">Select This Reward</button>
+                        <span style="font-size:0.78rem;color:#999;margin-left:8px;">312 backers</span>
+                    </div>
+                </div>
+
+                <div class="reward-card featured" tabindex="0">
+                    <div class="reward-illustration">🧩</div>
+                    <div class="reward-details">
+                        <div class="reward-header">
+                            <span class="reward-amount">Pledge $39</span>
+                            <span class="reward-title">⭐ Early Bird: Single Tile</span>
+                        </div>
+                        <p class="reward-desc"><strong>Limited to 200!</strong> One custom-shaped NFC memory tile.</p>
+                        <ul class="reward-includes">
+                            <li>1 hardwood tile (walnut, maple, bamboo)</li>
+                            <li>NFC chip for 1 video (up to 3 min)</li>
+                            <li>Companion app access</li>
+                            <li>Gift-ready packaging</li>
+                            <li>Free US shipping</li>
+                        </ul>
+                        <p class="reward-delivery">📦 Dec 2026</p>
+                        <button class="reward-select-btn">Select This Reward</button>
+                        <span style="font-size:0.78rem;color:#999;margin-left:8px;">128 backers · 72 left</span>
+                    </div>
+                </div>
+
+                <div class="reward-card" tabindex="0">
+                    <div class="reward-illustration">🐕🐱</div>
+                    <div class="reward-details">
+                        <div class="reward-header">
+                            <span class="reward-amount">Pledge $69</span>
+                            <span class="reward-title">Duo Memory Set</span>
+                        </div>
+                        <p class="reward-desc">Two interlocking tiles for two memories or two pets.</p>
+                        <ul class="reward-includes">
+                            <li>2 interlocking custom tiles</li>
+                            <li>2 NFC chips for 2 videos</li>
+                            <li>Engraving of pet's name</li>
+                            <li>App access with relinking</li>
+                            <li>Free US shipping</li>
+                        </ul>
+                        <p class="reward-delivery">📦 Dec 2026</p>
+                        <button class="reward-select-btn">Select This Reward</button>
+                        <span style="font-size:0.78rem;color:#999;margin-left:8px;">89 backers</span>
+                    </div>
+                </div>
+
+                <div class="reward-card" tabindex="0">
+                    <div class="reward-illustration">🖼️</div>
+                    <div class="reward-details">
+                        <div class="reward-header">
+                            <span class="reward-amount">Pledge $149</span>
+                            <span class="reward-title">4-Piece Portrait Puzzle</span>
+                        </div>
+                        <p class="reward-desc">Four tiles forming a complete display piece.</p>
+                        <ul class="reward-includes">
+                            <li>4 interlocking tiles (2×2)</li>
+                            <li>4 NFC chips for 4 videos</li>
+                            <li>Custom engraving on each</li>
+                            <li>Bamboo display frame</li>
+                            <li>Priority production</li>
+                            <li>Free US shipping</li>
+                        </ul>
+                        <p class="reward-delivery">📦 Nov 2026</p>
+                        <button class="reward-select-btn">Select This Reward</button>
+                        <span style="font-size:0.78rem;color:#999;margin-left:8px;">47 backers</span>
+                    </div>
+                </div>
+
+                <div class="reward-card" tabindex="0">
+                    <div class="reward-illustration">🏆</div>
+                    <div class="reward-details">
+                        <div class="reward-header">
+                            <span class="reward-amount">Pledge $299</span>
+                            <span class="reward-title">Full 9-Piece Legacy Collection</span>
+                        </div>
+                        <p class="reward-desc">The complete Pawzzle experience: 3×3 grid archive.</p>
+                        <ul class="reward-includes">
+                            <li>9 fully customized tiles</li>
+                            <li>9 NFC chips</li>
+                            <li>Premium walnut/maple finish</li>
+                            <li>Deluxe display frame</li>
+                            <li>Lifetime app subscription</li>
+                            <li>VIP priority & design consultation</li>
+                            <li>Free worldwide shipping</li>
+                        </ul>
+                        <p class="reward-delivery">📦 Nov 2026</p>
+                        <button class="reward-select-btn">Select This Reward</button>
+                        <span style="font-size:0.78rem;color:#999;margin-left:8px;">11 backers · 9 left</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SOCIAL PROOF -->
+            <section class="section" id="testimonials">
+                <h2 class="section-title">💬 What Beta Testers Are Saying</h2>
+                <div class="testimonial-card">
+                    <div class="testimonial-avatar">🐈</div>
+                    <div>
+                        <p class="quote">I lost my cat, Mochi, two years ago. When I tap the little fish-shaped tile and see her purring on my lap again, it's like she's still here.</p>
+                        <p class="testimonial-author">— Sarah L. <span>· Beta Tester · Portland, OR</span></p>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-avatar">🐕</div>
+                    <div>
+                        <p class="quote">The craftsmanship is stunning. The NFC works flawlessly — my niece can tap it with her iPad and watch Buster's zoomies instantly.</p>
+                        <p class="testimonial-author">— David R. <span>· Early Backer · Austin, TX</span></p>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-avatar">🐶</div>
+                    <div>
+                        <p class="quote">When I connected all four tiles of my golden retriever's portrait puzzle, I actually cried. It's the most meaningful thing I own.</p>
+                        <p class="testimonial-author">— Emily K. <span>· Veterinarian · Denver, CO</span></p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FAQ -->
+            <section class="section" id="faq">
+                <h2 class="section-title">❓ Frequently Asked Questions</h2>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">Is the NFC chip compatible with my phone?<span class="faq-arrow">▾</span></button>
+                    <div class="faq-answer"><p>Most modern smartphones support NFC. iPhones 7+ (iOS 14+) and Android phones work natively. A QR code backup is also provided.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">Where are videos stored? Are they secure?<span class="faq-arrow">▾</span></button>
+                    <div class="faq-answer"><p>Videos are encrypted (AES-256) in the cloud. Only you can access them via your NFC tile or app account.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">Can I change the video later?<span class="faq-arrow">▾</span></button>
+                    <div class="faq-answer"><p>Yes! The NFC chip is rewritable. Update or rotate videos anytime through our app.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">How long does customization take?<span class="faq-arrow">▾</span></button>
+                    <div class="faq-answer"><p>Digital proof within 5-7 business days, production 2-3 weeks. We'll keep you updated.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">What if my pet is still alive?<span class="faq-arrow">▾</span></button>
+                    <div class="faq-answer"><p>Absolutely! Use Pawzzle as a living scrapbook, adding videos throughout their life.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">What are the risks and challenges?<span class="faq-arrow">▾</span></button>
+                    <div class="faq-answer"><p>We've partnered with experienced suppliers and built buffer time. Transparent communication guaranteed.</p></div>
+                </div>
+            </section>
+
+            <!-- CALL TO ACTION -->
+            <div class="cta-banner" id="cta">
+                <div class="pet-silhouettes">🐕‍🦺 🐈 🐩 🐕 🐈‍⬛ 🦮 🐕‍🦺 🐈</div>
+                <h3>Ready to Preserve Your Pet's Story?</h3>
+                <p>Join 487 backers who are keeping their furry friends' memories alive — one puzzle piece at a time.</p>
+                <a href="#rewards" class="btn-cta-large">🐾 Back Pawzzle Now</a>
+            </div>
+
+            <!-- RISKS & CHALLENGES -->
+            <section class="section">
+                <h2 class="section-title">⚠️ Risks & Challenges</h2>
+                <div class="story-block">
+                    <p class="section-text">We believe in total transparency. Mitigation plans include:</p>
+                    <ul style="color:var(--text-secondary);line-height:1.7;padding-left:20px;">
+                        <li><strong>Supply chain:</strong> Two hardwood suppliers + backup NFC vendor.</li>
+                        <li><strong>Customization scale:</strong> Semi-automated design pipeline.</li>
+                        <li><strong>Shipping:</strong> Padded estimates, tracked shipping worldwide.</li>
+                        <li><strong>App stability:</strong> 6-month beta with 200+ testers.</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <footer class="site-footer">
+        <p>© 2026 <strong>Pawzzle Studio</strong> · A Kickstarter Project · All rights reserved.</p>
+        <p style="margin-top:4px;"><a href="#">Privacy Policy</a> · <a href="#">Terms of Service</a> · <a href="#">Contact Creator</a></p>
+        <p style="margin-top:6px;font-size:0.75rem;">🐾 Made with love for pets and the people who miss them.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // FAQ accordion
+            document.querySelectorAll('.faq-item').forEach(item => {
+                const btn = item.querySelector('.faq-question');
+                btn.addEventListener('click', () => {
+                    const isOpen = item.classList.contains('open');
+                    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+                    if (!isOpen) {
+                        item.classList.add('open');
+                        btn.setAttribute('aria-expanded', 'true');
+                    } else {
+                        btn.setAttribute('aria-expanded', 'false');
+                    }
+                });
+            });
+
+            // Smooth scroll
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    const target = document.querySelector(targetId);
+                    if (target) {
+                        e.preventDefault();
+                        window.scrollTo({ top: target.getBoundingClientRect().top + window.pageYOffset - 80, behavior: 'smooth' });
+                    }
+                });
+            });
+
+            // Reward select buttons
+            document.querySelectorAll('.reward-select-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const card = this.closest('.reward-card');
+                    card.style.borderColor = '#05ce78';
+                    this.textContent = '✓ Selected!';
+                    this.style.background = '#05ce78';
+                    this.style.color = '#fff';
+                    setTimeout(() => {
+                        card.style.borderColor = '';
+                        this.textContent = 'Select This Reward';
+                        this.style.background = '#f5f4f1';
+                        this.style.color = '#2a2118';
+                    }, 1800);
+                });
+            });
+
+            // Remind button
+            const remindBtn = document.querySelector('.btn-remind');
+            if (remindBtn) {
+                remindBtn.addEventListener('click', function() {
+                    this.textContent = '✅ You\'ll Be Reminded!';
+                    this.style.borderColor = '#05ce78';
+                    this.style.color = '#038d52';
+                    setTimeout(() => {
+                        this.textContent = '🔔 Remind Me';
+                        this.style.borderColor = '#d5d3ce';
+                        this.style.color = '';
+                    }, 2000);
+                });
+            }
+
+            // Scroll reveal animation
+            if ('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }
+                    });
+                }, { threshold: 0.15 });
+                document.querySelectorAll('.reward-card, .testimonial-card, .story-block, .faq-item, .step-card').forEach(el => {
+                    el.style.opacity = '0';
+                    el.style.transform = 'translateY(16px)';
+                    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    observer.observe(el);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
